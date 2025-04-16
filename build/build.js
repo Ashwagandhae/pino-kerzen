@@ -491,13 +491,13 @@ function updateCollect(gameState) {
         if (phys_1.pos.y >= MAX_Y - phys_1.size.y / 2) {
             phys_1.grounded = true;
         }
-        if (phys_1.pos.x > MAX_X - phys_1.size.x / 2) {
+        if (phys_1.pos.x > MAX_X - phys_1.size.x / 2 && phys_1.name == "dog") {
             phys_1.pos.x = MAX_X - phys_1.size.x / 2;
             if (phys_1.vel.x > 0) {
                 phys_1.vel.x = 0;
             }
         }
-        if (phys_1.pos.x < MIN_X + phys_1.size.x / 2) {
+        if (phys_1.pos.x < MIN_X + phys_1.size.x / 2 && phys_1.name == "dog") {
             phys_1.pos.x = MIN_X + phys_1.size.x / 2;
             if (phys_1.vel.x < 0) {
                 phys_1.vel.x = 0;

@@ -610,13 +610,13 @@ function updateCollect(gameState: CollectState): State {
     if (phys.pos.y >= MAX_Y - phys.size.y / 2) {
       phys.grounded = true;
     }
-    if (phys.pos.x > MAX_X - phys.size.x / 2) {
+    if (phys.pos.x > MAX_X - phys.size.x / 2 && phys.name == "dog") {
       phys.pos.x = MAX_X - phys.size.x / 2;
       if (phys.vel.x > 0) {
         phys.vel.x = 0;
       }
     }
-    if (phys.pos.x < MIN_X + phys.size.x / 2) {
+    if (phys.pos.x < MIN_X + phys.size.x / 2 && phys.name == "dog") {
       phys.pos.x = MIN_X + phys.size.x / 2;
       if (phys.vel.x < 0) {
         phys.vel.x = 0;
