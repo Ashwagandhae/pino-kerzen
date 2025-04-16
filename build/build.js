@@ -32,7 +32,7 @@ function setup() {
     noSmooth();
     for (var _i = 0, imageNames_1 = imageNames; _i < imageNames_1.length; _i++) {
         var name_1 = imageNames_1[_i];
-        images[name_1] = loadImage("/assets/" + name_1 + ".png");
+        images[name_1] = loadImage("./assets/" + name_1 + ".png");
     }
 }
 function draw() {

@@ -43,7 +43,7 @@ function setup() {
   noSmooth();
 
   for (let name of imageNames) {
-    images[name] = loadImage(`/assets/${name}.png`);
+    images[name] = loadImage(`./assets/${name}.png`);
   }
 }
 // p5 WILL HANDLE REQUESTING ANIMATION FRAMES FROM THE BROWSER AND WIL RUN DRAW() EACH ANIMATION FROME
