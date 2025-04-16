@@ -2,6 +2,10 @@ var gameState = { tag: "menu" };
 var renderer;
 var imageNames = [
     "background",
+    "background_1",
+    "background_2",
+    "background_3",
+    "background_4",
     "balcony",
     "basketball",
     "bird_water",
@@ -76,6 +80,23 @@ function drawBackgroundTiled(imageName, offset, y) {
     image(images[imageName], (offset % 640) + 640, y, 640, 640);
     image(images[imageName], (offset % 640) - 640, y, 640, 640);
 }
+function drawWindmills(x, y, w, h) {
+    var currentFrame = Math.round((millis() / 1000) * 1.5) % 4;
+    var imageString;
+    if (currentFrame == 0) {
+        imageString = "background_1";
+    }
+    else if (currentFrame == 1) {
+        imageString = "background_2";
+    }
+    else if (currentFrame == 2) {
+        imageString = "background_3";
+    }
+    else if (currentFrame == 3) {
+        imageString = "background_4";
+    }
+    image(images[imageString], x, y, w, h);
+}
 function drawStart(gameState) {
     background(color("#B7DCF5"));
     noSmooth();
@@ -86,22 +107,22 @@ function drawStart(gameState) {
     var secs23 = clamp((currentSecs - 4.0) / 2.0, 0.0, 1.0);
     if (gameState.frame == 0) {
         drawBackgroundTiled("sky", globalSecs * 10, lerp(640, 0, secs2));
-        image(images["background"], 0, lerp(640, 0, secs2), 640, 640);
+        drawWindmills(0, lerp(640, 0, secs2), 640, 640);
     }
     else if (gameState.frame == 1) {
         drawBackgroundTiled("sky", globalSecs * 10, 0);
-        image(images["background"], 0, 0, 640, 640);
+        drawWindmills(0, 0, 640, 640);
         image(images["balcony"], 0, lerp(640, 0, secs2), 640, 640);
     }
     else if (gameState.frame == 2) {
         drawBackgroundTiled("sky", globalSecs * 10, 0);
-        image(images["background"], 0, 0, 640, 640);
+        drawWindmills(0, 0, 640, 640);
         image(images["balcony"], 0, 0, 640, 640);
         image(images["dog"], lerp(-640, 0, secs2), 0, 640, 640);
     }
     else if (gameState.frame == 3) {
         drawBackgroundTiled("sky", globalSecs * 10, 0);
-        image(images["background"], 0, 0, 640, 640);
+        drawWindmills(0, 0, 640, 640);
         image(images["balcony"], 0, 0, 640, 640);
         if (currentSecs < 2) {
             image(images["dog_flipped"], lerp(0, -640, secs2), 0, 640, 640);
@@ -113,7 +134,7 @@ function drawStart(gameState) {
     }
     else if (gameState.frame == 4) {
         drawBackgroundTiled("sky", globalSecs * 10, 0);
-        image(images["background"], 0, 0, 640, 640);
+        drawWindmills(0, 0, 640, 640);
         image(images["balcony"], 0, 0, 640, 640);
         image(images["table"], 0, 200, 640, 640);
         if (currentSecs < 2) {
@@ -134,7 +155,7 @@ function drawStart(gameState) {
     }
     else if (gameState.frame == 5) {
         drawBackgroundTiled("sky", globalSecs * 10, 0);
-        image(images["background"], 0, 0, 640, 640);
+        drawWindmills(0, 0, 640, 640);
         image(images["balcony"], 0, 0, 640, 640);
         image(images["table"], 0, 200, 640, 640);
         image(images["cake_eaten"], 40, 200, 640, 640);
@@ -152,7 +173,7 @@ function drawStart(gameState) {
     }
     else if (gameState.frame == 6) {
         drawBackgroundTiled("sky", globalSecs * 10, 0);
-        image(images["background"], 0, 0, 640, 640);
+        drawWindmills(0, 0, 640, 640);
         if (currentSecs >= 2) {
             for (var i = 0; i < 6; i++) {
                 var candleX = 140 + 40 * cos((i / 6) * 2 * Math.PI + currentSecs);
@@ -174,7 +195,7 @@ function drawStart(gameState) {
     }
     else if (gameState.frame == 7) {
         drawBackgroundTiled("sky", globalSecs * 10, 0);
-        image(images["background"], 0, 0, 640, 640);
+        drawWindmills(0, 0, 640, 640);
         if (currentSecs >= 2) {
             image(images["dog_flipped"], 220, 100 - lerp(-200, 300, sin((Math.PI + secs22 * Math.PI) / 2)), 640, 640);
         }
@@ -187,7 +208,7 @@ function drawStart(gameState) {
     }
     else if (gameState.frame == 8) {
         drawBackgroundTiled("sky", globalSecs * 10, lerp(0, 640, clamp(currentSecs / 4.0, 0.0, 1.0)));
-        image(images["background"], 0, 0 + lerp(0, 640, clamp(currentSecs / 3.0, 0.0, 1.0)), 640, 640);
+        drawWindmills(0, 0 + lerp(0, 640, clamp(currentSecs / 3.0, 0.0, 1.0)), 640, 640);
         image(images["balcony"], 0, 0 + lerp(0, 640, secs2), 640, 640);
         image(images["table"], 0, 200 + lerp(0, 640, secs2), 640, 640);
         image(images["cake_eaten"], 40, 200 + lerp(0, 640, secs2), 640, 640);
@@ -305,7 +326,7 @@ function newCollect() {
     }
     for (var i = -3; i < 4; i++) {
         backgrounds.push({
-            drawFunc: drawFuncImage("background"),
+            drawFunc: function (x, y) { return drawWindmills(x, y, 640, 640); },
             cameraInfluence: 0.25,
             pos: newVec(i * 640, 320),
         });
@@ -603,7 +624,7 @@ function drawFinish(gameState) {
     var secs23 = clamp((currentSecs - 4.0) / 2.0, 0.0, 1.0);
     if (gameState.frame == 0) {
         drawBackgroundTiled("sky", globalSecs * 10, lerp(640, 0, clamp(currentSecs / 4.0, 0.0, 1.0)));
-        image(images["background"], 0, 0 + lerp(640, 0, clamp(currentSecs / 4.0, 0.0, 1.0)), 640, 640);
+        drawWindmills(0, 0 + lerp(640, 0, clamp(currentSecs / 4.0, 0.0, 1.0)), 640, 640);
         image(images["balcony"], 0, 0 + lerp(640, 0, clamp(currentSecs / 4.0, 0.0, 1.0)), 640, 640);
         image(images["table"], 0, 200 + lerp(640, 0, clamp(currentSecs / 4.0, 0.0, 1.0)), 640, 640);
         image(images["cake_candle"], 40, 200 + lerp(640, 0, clamp(currentSecs / 4.0, 0.0, 1.0)), 640, 640);
@@ -611,7 +632,7 @@ function drawFinish(gameState) {
     }
     else if (gameState.frame == 1) {
         drawBackgroundTiled("sky", globalSecs * 10, 0);
-        image(images["background"], 0, 0 + 0, 640, 640);
+        drawWindmills(0, 0 + 0, 640, 640);
         image(images["balcony"], 0, 0 + 0, 640, 640);
         image(images["table"], 0, 200 + 0, 640, 640);
         image(images["cake_candle"], 40, 200 + 0, 640, 640);
@@ -620,7 +641,7 @@ function drawFinish(gameState) {
     }
     else if (gameState.frame == 2) {
         drawBackgroundTiled("sky", globalSecs * 10, 0);
-        image(images["background"], 0, 0 + 0, 640, 640);
+        drawWindmills(0, 0 + 0, 640, 640);
         image(images["balcony"], 0, 0 + 0, 640, 640);
         image(images["table"], 0, 200 + 0, 640, 640);
         image(images["cake_candle"], 40, 200 + 0, 640, 640);
@@ -630,7 +651,7 @@ function drawFinish(gameState) {
     }
     else if (gameState.frame == 3) {
         drawBackgroundTiled("sky", globalSecs * 10, 0);
-        image(images["background"], 0, 0 + 0, 640, 640);
+        drawWindmills(0, 0 + 0, 640, 640);
         image(images["balcony"], 0, 0 + 0, 640, 640);
         image(images["table"], 0, 200 + 0, 640, 640);
         image(images["cake_candle"], 40, 200 + 0, 640, 640);
